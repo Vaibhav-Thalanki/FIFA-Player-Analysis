@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <!--From https://codepen.io/frytyler/pen/EGdtg-->
+  <head>
+    <meta charset="UTF-8" />
+    <title>FIFA Player Analysis</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Pacifico"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Arimo"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Hind:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/stylenew.css') }}"
+    />
+  </head>
+
+  <body>
+    <div class="login">
+      <h1>Predict FIFA Player Positions</h1>
+      <br>
+      
+      <div>
+        <p>attack positions = ST, RW, LW, RM, CM, LM, CAM, CF <br>
+           defened positions = CDM, CB, LB, RB, RWB, LWB</p>
+      </div>
+      <br><br>
+
+      <!-- Main Input For Receiving Query to our ML model -->
+      
+      <!-- 'Aggression', 'Crossing', 'Curve', 'Dribbling', 'Finishing',
+       'Free kick accuracy', 'Heading accuracy', 'Long shots', 'Penalties',
+       'Shot power', 'Volleys', 'Short passing', 'Long passing',
+       'Interceptions', 'Marking', 'Sliding tackle', 'Acceleration', 'Agility', 'Reactions','Sprint speed',
+       'Positioning'-->
+
+      <form action="/submit" method="POST">
+      
+        <div class="range-wrap" >
+          <label for="Aggression">Aggression:</label> <br />
+          <input type="range" class="range" min="13" max="96" step="1" value="53" name="Aggression">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Crossing">Crossing:</label> <br />
+          <input type="range" class="range" min="11" max="91" value="49" step="1" name="Crossing">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Curve">Curve:</label> <br />
+          <input type="range" class="range" min="11" max="92" value="80" step="1" name="Curve">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Dribbling">Dribbling:</label> <br />
+          <input type="range" class="range" min="13" max="97" step="1" value="91" name="Dribbling">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Finishing">Finishing:</label> <br />
+          <input type="range" class="range" min="10" max="95" step="1" value="76" name="Finishing">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Freekickaccuracy">Free kick accuracy:</label> <br />
+          <input type="range" class="range" min="10" max="93" step="1" value="68" name="Freekickaccuracy">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Headingaccuracy">Heading accuracy:</label> <br />
+          <input type="range" class="range" min="16" max="94" step="1" value="88" name="Headingaccuracy">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Longshots">Long shots:</label> <br />
+          <input type="range" class="range" min="11" max="92" step="1" value="92" name="Longshots">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Shotpower">Shot power:</label> <br />
+          <input type="range" class="range" min="12" max="94" step="1" value="92" name="Shotpower">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Penalties">Penalties:</label> <br />
+          <input type="range" class="range" min="11" max="92" step="1" value="50" name="Penalties">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Volleys">Volleys:</label> <br />
+          <input type="range" class="range" min="11" max="91" step="1" value="58" name="Volleys">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Shortpassing">Short passing:</label> <br />
+          <input type="range" class="range" min="21" max="92" step="1" value="91" name="Shortpassing">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Longpassing">Long passing:</label> <br />
+          <input type="range" class="range" min="17" max="93" step="1" value="78" name="Longpassing">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="plot"><div class="plot-in"><img src= "{{ url_for('static', filename='images/country1.png') }}" alt = "Graph cannot be displayed" width="800px" ></div>
+        </div>
+       
+        <br>
+        <div class="range-wrap" >
+          <label for="Interceptions">Interceptions:</label> <br />
+          <input type="range" class="range" min="10" max="92" step="1" value="80" name="Interceptions">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Marking">Marking:</label> <br />
+          <input type="range" class="range" min="10" max="92" step="1" value="60" name="Marking">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Slidingtackle">Sliding tackle:</label> <br />
+          <input type="range" class="range" min="10" max="91" step="1" value="20" name="Slidingtackle">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Acceleration">Acceleration:</label> <br />
+          <input type="range" class="range" min="20" max="96" step="1" value="40" name="Acceleration">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Agility">Agility:</label> <br />
+          <input type="range" class="range" min="23" max="96" step="1" value="50" name="Agility">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Reactions">Reactions:</label> <br />
+          <input type="range" class="range" min="30" max="96" step="1" value="40" name="Reactions">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Sprintspeed">Sprint speed:</label> <br />
+          <input type="range" class="range" min="21" max="96" step="1" value="94" name="Sprintspeed">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="range-wrap" >
+          <label for="Positioning">Positioning:</label> <br />
+          <input type="range" class="range" min="11" max="95" step="1" value="20" name="Positioning">
+          <output class="bubble"></output>
+        </div>
+        <br />
+        <div class="plot"><div class="plot-in-2"><img src= "{{ url_for('static', filename='images/club1.png') }}" alt = "Graph cannot be displayed" width="800px" ></div>
+        </div>
+       
+        <br>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">
+          Predict
+        </button>
+        <br /><br />
+      </form>
+      <h4>VAIBHAV THALANKI 20BCE1385</h4>
+      <h4>NEERAJ S 20BCE1656</h4>
+      <br />
+    </div>
+    
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+  </body>
+</html>
